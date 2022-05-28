@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}django-bootstrap-v5{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class=" col-md-12  text-center mt-5 shadow-lg p-3 mb-3 bg-body rounded">
+            <h1 class="d-inline-block"><i class="fa-solid fa-utensils"></i>  Restaurants</h1>
+            <a href="{% url 'app-restaurant-create' %}" class="float-end">
+                <button type="button" class="btn btn-success py-3">
+                    <span class="px-3">Create</span><i class="fa-solid fa-file-circle-plus"></i>
+                </button>
+            </a>
+        </div>
+    </div>    
+
+    {% if restaurant_list %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col" class="w-25">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for restaurant in restaurant_list %}
+        <tr>
+            <th scope="row">{{ restaurant.id }}</th>
+            <td>{{ restaurant.name }}</td>
+            <td class="d-flex justify-content-around">
+                <a href="{% url 'app-restaurant-detail' restaurant.id %}" class="btn btn-primary">
+                    <i class="fa-solid fa-circle-info"></i>
+                </a>            
+                <a href="{% url 'app-restaurant-edit' restaurant.id %}"  class="btn btn-secondary">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>            
+                <a href="{% url 'app-restaurant-delete' restaurant.id %}" class="btn btn-danger">
+                    <i class="fa-solid fa-trash"></i>
+                </a>            
+            </td>
+        </tr>  
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="row shadow-lg p-3 mb-3 bg-body rounded d-flex align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 text-center py-3">
+            There are no restaurants in the base.
+        </div>
+    </div>         
+    {% endif %}
+
+{% endblock %}

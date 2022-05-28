@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}django-bootstrap-v5{% endblock %}
+
+{% block content %}
+ 
+    <div class="row">
+      <div class=" col-md-12 text-left mt-5 shadow-lg p-3 mb-3 bg-body rounded">
+        <h4 class="w-100 "><i class="fa-solid fa-utensils"></i> Resturant: {{ object.name }}</h4>
+      </div>
+    </div>
+    <div class="row">
+        <div class=" col-md-12  text-left mt-5 shadow-lg p-3 mb-3 bg-body rounded">
+            <h4 class="d-inline-block"><i class="fa-solid fa-table-list"></i>  Menu</h4>
+            <a href="{% url 'app-menu-item-create' restaurant.id  %}" class="float-end">
+                <button type="button" class="btn btn-success">
+                    <span class="px-3">Create</span><i class="fa-solid fa-file-circle-plus"></i>
+                </button>
+            </a>
+        </div>
+    </div>    
+
+
+    {% if object.menuitens.all %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Category</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col" class="w-25">Actions</th>
+            </tr>
+        </thead>
+        <tbody>   
+        {% for menuitem in object.menuitens.all %}
+        <tr>
+            <th scope="row">{{ menuitem.id }}</th>
+            <td>{{ menuitem.category }}</td>
+            <td>{{ menuitem.name }}</td>
+            <td>{{ menuitem.description }}</td>
+            <td>{{ menuitem.price }}</td>
+            <td class="d-flex justify-content-around">
+                <a href="{% url 'app-menu-item-edit' restaurant.id menuitem.id %}"  class="btn btn-secondary">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>            
+                <a href="{% url 'app-menu-item-delete' restaurant.id menuitem.id %}" class="btn btn-danger">
+                    <i class="fa-solid fa-trash"></i>
+                </a>            
+            </td>
+        </tr>  
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="row shadow-lg p-3 mb-3 bg-body rounded d-flex align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 text-center py-3">
+            There are no menu in the base.
+        </div>
+    </div>      
+    {% endif %}    
+{% endblock %}
